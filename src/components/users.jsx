@@ -11,7 +11,7 @@ export default function Users() {
 	}
 
 	const renderPhrase = number => {
-		return number % 10 > 1 && number % 10 < 5 && Math.floor(number % 100) < 10 && Math.floor(number % 100) > 20 
+		return number % 10 > 1 && number % 10 < 5 && (Math.floor(number % 100) < 10 || Math.floor(number % 100) > 20) 
 			? 'человека тусанут' 
 			: 'человек тусанет'
 	}
