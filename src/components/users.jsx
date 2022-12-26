@@ -1,29 +1,10 @@
-import React, { useState } from "react"
-import api from "../api"
+import React from 'react'
+import User from './user'
 
-export default function Users() {
-  const [users, setUsers] = useState(api.users.fetchAll())
+export default function Users({ users, ...rest }) {
 
-  const handleDelete = userId => {
-    setUsers(users.filter(user => user._id !== userId))
-  }
-
-  const renderPhrase = number => {
-    return number % 10 > 1 && number % 10 < 5 && (Math.floor(number % 100) < 10 || Math.floor(number % 100) > 20) 
-      ? 'человека тусанут' 
-      : 'человек тусанет'
-  }
-  
   return (
     <>
-      <h2>
-        <span className={"badge " + (users.length > 0 ? "bg-primary" : "bg-danger")}>
-          {users.length > 0 
-            ? `${users.length} ${renderPhrase(users.length)} с тобой сегодня` 
-            : "Никто с тобой не тусанет"
-          }
-        </span>
-      </h2>
       {users.length > 0 && (
         <table className="table">
           <thead>
@@ -32,27 +13,14 @@ export default function Users() {
               <th className="user-qualities" scope="col">Качества</th>
               <th className="user-professions" scope="col">Профессия</th>
               <th className="user-meetings" scope="col">Встретился, раз</th>
-              <th className="user-rates" colSpan="2" scope="col">Оценка</th>
+              <th className="user-rates" scope="col">Оценка</th>
+              <th className="user-favorites" scope="col">Избранное</th>
+              <th className="user-delete" scope="col"></th>
             </tr>
           </thead>
           <tbody>
             {users.map(user => (
-              <tr key={user._id}>
-                <td>{user.name}</td>
-                <td>{user.qualities.map(quality => (
-                    <span className={"badge m-1 bg-" + quality.color} key={quality._id}>{quality.name}</span>
-                  ))
-                }</td>
-                <td>{user.profession.name}</td>
-                <td>{user.completedMeetings}</td>
-                <td>{user.rate}/5</td>
-                <td>
-                  <button 
-                    className="btn btn-danger btn-sm" 
-                    onClick={() => handleDelete(user._id)}
-                  >delete</button>
-                </td>
-              </tr>
+              <User key={user._id} user={user} rest={rest} />
             ))}
           </tbody>
         </table>
