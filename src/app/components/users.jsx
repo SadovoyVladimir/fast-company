@@ -44,7 +44,7 @@ export default function Users({ users, ...rest }) {
           </thead>
           <tbody>
             {userCrop.map((user) => (
-              <User key={user._id} user={user} rest={rest} />
+              <User key={user._id} {...rest} {...user} />
             ))}
           </tbody>
         </table>
@@ -60,6 +60,5 @@ export default function Users({ users, ...rest }) {
 }
 
 Users.propTypes = {
-  users: PropTypes.array.isRequired,
-  rest: PropTypes.object
+  users: PropTypes.array
 }
