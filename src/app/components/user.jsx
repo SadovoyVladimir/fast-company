@@ -3,7 +3,17 @@ import Quality from './quality'
 import Bookmark from './bookmark'
 import PropTypes from 'prop-types'
 
-export default function User({ _id, name, qualities, profession, completedMeetings, rate, bookmark, onDelete, onToggleBookmark }) {
+export default function User({
+  _id,
+  name,
+  qualities,
+  profession,
+  completedMeetings,
+  rate,
+  bookmark,
+  onDelete,
+  onToggleBookmark
+}) {
   return (
     <>
       <tr>
@@ -17,10 +27,7 @@ export default function User({ _id, name, qualities, profession, completedMeetin
         <td>{completedMeetings}</td>
         <td>{rate}/5</td>
         <td>
-          <Bookmark
-            status={bookmark}
-            onClick={() => onToggleBookmark(_id)}
-          />
+          <Bookmark status={bookmark} onClick={() => onToggleBookmark(_id)} />
         </td>
         <td>
           <button
