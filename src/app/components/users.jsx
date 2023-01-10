@@ -11,6 +11,7 @@ export default function Users({ users: allUsers, ...rest }) {
   const [currentPage, setCurrentPage] = useState(1)
   const [professions, setProfessions] = useState()
   const [selectedProf, setSelectedProf] = useState()
+
   const pageSize = 4
   useEffect(() => {
     api.professions.fetchAll().then((data) => setProfessions(data))
@@ -33,7 +34,10 @@ export default function Users({ users: allUsers, ...rest }) {
   }
 
   const filteredUsers = selectedProf
-    ? allUsers.filter((user) => JSON.stringify(user.profession) === JSON.stringify(selectedProf))
+    ? allUsers.filter(
+        (user) =>
+          JSON.stringify(user.profession) === JSON.stringify(selectedProf)
+      )
     : allUsers
 
   const count = filteredUsers.length
@@ -50,6 +54,7 @@ export default function Users({ users: allUsers, ...rest }) {
             onItemSelect={handleProfessionSelect}
           />
           <button className='btn btn-secondary mt-2' onClick={clearFilter}>
+            {' '}
             Очистить
           </button>
         </div>
@@ -60,24 +65,12 @@ export default function Users({ users: allUsers, ...rest }) {
           <table className='table'>
             <thead>
               <tr>
-                <th className='user-names' scope='col'>
-                  Имя
-                </th>
-                <th className='user-qualities' scope='col'>
-                  Качества
-                </th>
-                <th className='user-professions' scope='col'>
-                  Профессия
-                </th>
-                <th className='user-meetings' scope='col'>
-                  Встретился, раз
-                </th>
-                <th className='user-rates' scope='col'>
-                  Оценка
-                </th>
-                <th className='user-favorites' scope='col'>
-                  Избранное
-                </th>
+                <th scope='col'>Имя</th>
+                <th scope='col'>Качества</th>
+                <th scope='col'>Профессия</th>
+                <th scope='col'>Встретился, раз</th>
+                <th scope='col'>Оценка</th>
+                <th scope='col'>Избранное</th>
                 <th />
               </tr>
             </thead>

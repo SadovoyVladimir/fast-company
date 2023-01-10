@@ -5,7 +5,7 @@ import api from './api'
 export default function App() {
   const [users, setUsers] = useState()
   useEffect(() => {
-    api.users.default.fetchAll().then((data) => setUsers(data))
+    api.users.fetchAll().then((data) => setUsers(data))
   }, [])
 
   const handleDelete = (userId) => {
@@ -22,11 +22,13 @@ export default function App() {
 
   return (
     <div>
-      {users && <Users
-        users={users}
-        onDelete={handleDelete}
-        onToggleBookmark={handleToggleBookmark}
-      />}
+      {users && (
+        <Users
+          users={users}
+          onDelete={handleDelete}
+          onToggleBookmark={handleToggleBookmark}
+        />
+      )}
     </div>
   )
 }
