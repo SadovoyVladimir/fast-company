@@ -12,7 +12,7 @@ export default function Users({ users: allUsers, ...rest }) {
   const [professions, setProfessions] = useState()
   const [selectedProf, setSelectedProf] = useState()
 
-  const pageSize = 4
+  const pageSize = 2
   useEffect(() => {
     api.professions.fetchAll().then((data) => setProfessions(data))
   }, [])
@@ -41,6 +41,12 @@ export default function Users({ users: allUsers, ...rest }) {
     : allUsers
 
   const count = filteredUsers.length
+
+  useEffect(() => {
+    if (currentPage > Math.ceil(count / pageSize)) {
+      setCurrentPage(prevState => --prevState)
+    }
+  }, [allUsers])
 
   const userCrop = paginate(filteredUsers, currentPage, pageSize)
 
