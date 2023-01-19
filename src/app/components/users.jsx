@@ -13,7 +13,6 @@ export default function Users() {
   const [professions, setProfessions] = useState()
   const [selectedProf, setSelectedProf] = useState()
   const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' })
-
   const pageSize = 4
 
   const [users, setUsers] = useState()
@@ -24,7 +23,6 @@ export default function Users() {
   const handleDelete = (userId) => {
     setUsers(users.filter((user) => user._id !== userId))
   }
-
   const handleToggleBookmark = (id) => {
     setUsers(
       users.map((user) =>
@@ -36,7 +34,6 @@ export default function Users() {
   useEffect(() => {
     api.professions.fetchAll().then((data) => setProfessions(data))
   }, [])
-
   useEffect(() => {
     setCurrentPage(1)
   }, [selectedProf])
@@ -44,17 +41,11 @@ export default function Users() {
   const handlePageChange = (pageIndex) => {
     setCurrentPage(pageIndex)
   }
-
   const handleProfessionSelect = (item) => {
     setSelectedProf(item)
   }
-
   const handleSort = (item) => {
     setSortBy(item)
-  }
-
-  const clearFilter = () => {
-    setSelectedProf()
   }
 
   if (users) {
@@ -66,14 +57,15 @@ export default function Users() {
       : users
 
     const count = filteredUsers.length
-
     if (currentPage > Math.ceil(count / pageSize)) {
       setCurrentPage((prevState) => --prevState)
     }
-
     const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order])
-
     const userCrop = paginate(sortedUsers, currentPage, pageSize)
+
+    const clearFilter = () => {
+      setSelectedProf()
+    }
 
     return (
       <div className='d-flex'>
@@ -113,7 +105,6 @@ export default function Users() {
       </div>
     )
   }
-
   return 'loading...'
 }
 

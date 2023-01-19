@@ -12,6 +12,20 @@ export default function TableHeader({ onSort, selectedSort, columns }) {
       onSort({ path: item, order: 'asc' })
     }
   }
+  const renderSortArrow = (path, currentPath) => {
+    if (path === currentPath) {
+      return (
+        <i
+          className={
+            'bi bi-caret-' +
+            (selectedSort.order === 'asc' ? 'up' : 'down') +
+            '-fill'
+          }
+        ></i>
+      )
+    }
+    return null
+  }
 
   return (
     <thead>
@@ -28,13 +42,7 @@ export default function TableHeader({ onSort, selectedSort, columns }) {
             scope='col'
           >
             {columns[column].name}
-            {selectedSort.path === columns[column].path
-            ? (<i className={'bi bi-caret-' +
-                  (selectedSort.order === 'asc' ? 'up' : 'down') +
-                  '-fill'
-                }
-              ></i>)
-            : undefined}
+            {renderSortArrow(selectedSort.path, columns[column].path)}
           </th>
         ))}
       </tr>
