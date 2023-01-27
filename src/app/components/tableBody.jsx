@@ -1,15 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
+import { Link } from 'react-router-dom'
 
-export default function TableBody({ data, columns }) {
+export default function TableBody({ data, columns, url }) {
   const renderContent = (item, column) => {
-    if (columns[column].component) {
-      const component = columns[column].component
+    const component = columns[column].component
+    if (component) {
       if (typeof component === 'function') {
         return component(item)
       }
       return component
+    }
+    if (columns[column].link) {
+      return (
+        <Link to={'/' + (url ? url + '/' : '') + item._id}>
+          {_.get(item, columns[column].path)}
+        </Link>
+      )
     }
     return _.get(item, columns[column].path)
   }
@@ -29,5 +37,6 @@ export default function TableBody({ data, columns }) {
 
 TableBody.propTypes = {
   data: PropTypes.array.isRequired,
-  columns: PropTypes.object.isRequired
+  columns: PropTypes.object.isRequired,
+  url: PropTypes.string
 }
