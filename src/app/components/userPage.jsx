@@ -12,7 +12,7 @@ export default function UserPage({ id }) {
 
   if (user) {
     return (
-      <>
+      <div>
         <h1>{user.name}</h1>
         <h2>Профессия: {user.profession.name}</h2>
         <QualitiesList qualities={user.qualities} />
@@ -21,7 +21,7 @@ export default function UserPage({ id }) {
         <Link to='/users'>
           <button>Все пользователи</button>
         </Link>
-      </>
+      </div>
     )
   }
   return <h1>Loading</h1>

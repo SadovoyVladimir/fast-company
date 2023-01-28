@@ -8,15 +8,14 @@ export default function Table({
   selectedSort,
   columns,
   data,
-  children,
-  url
+  children
 }) {
   return (
     <table className='table'>
       {children || (
         <>
           <TableHeader {...{ onSort, selectedSort, columns }} />
-          <TableBody {...{ data, columns, url }} />
+          <TableBody {...{ data, columns }} />
         </>
       )}
     </table>
@@ -28,6 +27,5 @@ Table.propTypes = {
   selectedSort: PropTypes.object,
   columns: PropTypes.object,
   data: PropTypes.array,
-  children: PropTypes.array,
-  url: PropTypes.string
+  children: PropTypes.array
 }
