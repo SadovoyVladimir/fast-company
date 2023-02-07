@@ -6,6 +6,7 @@ import SearchStatus from '../components/searchStatus'
 import UserTable from '../components/usersTable'
 import Pagination from '../components/pagination'
 import { paginate } from '../utils/paginate'
+import SearchName from './searchName'
 
 export default function UsersList() {
   const [currentPage, setCurrentPage] = useState(1)
@@ -13,6 +14,8 @@ export default function UsersList() {
   const [selectedProf, setSelectedProf] = useState()
   const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' })
   const pageSize = 4
+  const [searchUsers, setSearchUsers] = useState()
+  const [searchValue, setSearchValue] = useState('')
 
   const [users, setUsers] = useState()
   useEffect(() => {
@@ -40,6 +43,8 @@ export default function UsersList() {
 
   const handleProfessionSelect = (item) => {
     setSelectedProf(item)
+    setSearchUsers()
+    setSearchValue('')
   }
   const handlePageChange = (pageIndex) => {
     setCurrentPage(pageIndex)
@@ -49,15 +54,20 @@ export default function UsersList() {
   }
 
   if (users) {
-    const filteredUsers = selectedProf
-      ? users.filter(
-          (user) =>
-            JSON.stringify(user.profession) === JSON.stringify(selectedProf)
-        )
-      : users
+    let filteredUsers
+    if (searchUsers) {
+      filteredUsers = searchUsers
+    } else {
+      filteredUsers = selectedProf
+        ? users.filter(
+            (user) =>
+              JSON.stringify(user.profession) === JSON.stringify(selectedProf)
+          )
+        : users
+    }
 
     const count = filteredUsers.length
-    if (currentPage > Math.ceil(count / pageSize)) {
+    if (currentPage > Math.ceil(count / pageSize) && currentPage !== 1) {
       setCurrentPage((prevState) => --prevState)
     }
     const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order])
@@ -65,6 +75,17 @@ export default function UsersList() {
 
     const clearFilter = () => {
       setSelectedProf()
+    }
+
+    const handleSearchName = ({ target }) => {
+      setSearchValue(target.value)
+      const searchUsers = users.filter(
+        (user) => user.name.toLowerCase().indexOf(target.value) !== -1
+      )
+      setSearchUsers(searchUsers)
+      if (selectedProf) {
+        clearFilter()
+      }
     }
 
     return (
@@ -84,6 +105,7 @@ export default function UsersList() {
         )}
         <div className='d-flex flex-column'>
           <SearchStatus length={count} />
+          <SearchName name='searchName' onChange={handleSearchName} value={searchValue} />
           {count > 0 && (
             <UserTable
               users={userCrop}
