@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import api from '../api'
+import api from '../../../api'
 import PropTypes from 'prop-types'
-import QualitiesList from './qualitiesList'
+import Qualities from '../../ui/qualities'
 import { Link } from 'react-router-dom'
 
 export default function UserPage({ id }) {
@@ -15,7 +15,7 @@ export default function UserPage({ id }) {
       <div>
         <h1>{user.name}</h1>
         <h2>Профессия: {user.profession.name}</h2>
-        <QualitiesList qualities={user.qualities} />
+        <Qualities qualities={user.qualities} />
         <h3>completedMeetings: {user.completedMeetings}</h3>
         <h1>Rate: {user.rate}</h1>
         <Link to='/users'>

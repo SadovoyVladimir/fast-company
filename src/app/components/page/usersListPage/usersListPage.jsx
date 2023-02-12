@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
-import api from '../api'
-import GroupList from '../components/groupList'
-import SearchStatus from '../components/searchStatus'
-import UserTable from '../components/usersTable'
-import Pagination from '../components/pagination'
-import { paginate } from '../utils/paginate'
+import api from '../../../api'
+import GroupList from '../../common/groupList'
+import SearchStatus from '../../ui/searchStatus'
+import UserTable from '../../ui/usersTable'
+import Pagination from '../../common/pagination'
+import { paginate } from '../../../utils/paginate'
 
-export default function UsersList() {
+export default function UsersListPage() {
   const [currentPage, setCurrentPage] = useState(1)
   const [professions, setProfessions] = useState()
   const [selectedProf, setSelectedProf] = useState()
