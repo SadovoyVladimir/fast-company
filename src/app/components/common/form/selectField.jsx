@@ -32,12 +32,14 @@ export default function SelectField({
         value={value}
         onChange={handleChange}
       >
-        <option disabled value=''>
-          {defaultOption}
-        </option>
+        {defaultOption && (
+          <option disabled value=''>
+            {defaultOption}
+          </option>
+        )}
         {optionsArray.length > 0 &&
           optionsArray.map((option) => (
-            <option key={option._id} value={option._id}>
+            <option key={option.value} value={option.value}>
               {option.label}
             </option>
           ))}
