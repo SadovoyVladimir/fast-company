@@ -10,16 +10,18 @@ export default function SelectField({
   name,
   error
 }) {
-  const getInputClasses = () => {
-    return 'form-select' + (error ? ' is-invalid' : '')
-  }
   const handleChange = ({ target }) => {
     onChange({ name: target.name, value: target.value })
   }
+  const getInputClasses = () => {
+    return 'form-select' + (error ? ' is-invalid' : '')
+  }
+
   const optionsArray =
     !Array.isArray(options) && typeof options === 'object'
       ? Object.values(options)
       : options
+
   return (
     <div className='mb-4'>
       <label htmlFor={name} className='form-label'>

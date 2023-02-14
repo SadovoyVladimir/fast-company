@@ -13,9 +13,11 @@ export default function MultiSelectField({
     !Array.isArray(options) && typeof options === 'object'
       ? Object.values(options)
       : options
+
   const handleChange = (value) => {
     onChange({ name, value })
   }
+
   return (
     <div className='mb-4'>
       <label className='form-label'>{label}</label>

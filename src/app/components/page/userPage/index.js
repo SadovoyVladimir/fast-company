@@ -1,2 +1,2 @@
-import UserRoute from './userRoute'
-export default UserRoute
+import UserPage from './userPage'
+export default UserPage

@@ -10,6 +10,7 @@ export default function TextField({
   error
 }) {
   const [showPassword, setShowPassword] = useState(false)
+
   const handleChange = ({ target }) => {
     onChange({ name: target.name, value: target.value })
   }
@@ -19,6 +20,7 @@ export default function TextField({
   const toggleShowPassword = () => {
     setShowPassword((prevState) => !prevState)
   }
+
   return (
     <div className='mb-4'>
       <label htmlFor={name}>{label}</label>
