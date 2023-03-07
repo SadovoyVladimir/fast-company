@@ -42,7 +42,7 @@ export default function SelectField({
         {optionsArray.length > 0 &&
           optionsArray.map((option) => (
             <option key={option.value} value={option.value}>
-              {option.label}
+              {option.name}
             </option>
           ))}
       </select>
