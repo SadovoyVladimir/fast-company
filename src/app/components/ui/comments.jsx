@@ -9,7 +9,7 @@ export default function Comments() {
   const [comments, setComments] = useState([])
 
   useEffect(() => {
-    api.comments.fetchCommentsForUser(userId).then(data => setComments(data))
+    api.comments.fetchCommentsForUser(userId).then((data) => setComments(data))
   }, [])
 
   const handleSubmit = (data) => {
@@ -18,8 +18,8 @@ export default function Comments() {
       .then((data) => setComments([...comments, data]))
   }
   const handleRemoveComment = (id) => {
-    api.comments.remove(id).then(id => {
-      setComments(comments.filter(x => x._id !== id))
+    api.comments.remove(id).then((id) => {
+      setComments(comments.filter((x) => x._id !== id))
     })
   }
   const sortedComments = orderBy(comments, ['created_at'], ['desc'])

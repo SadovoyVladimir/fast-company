@@ -15,7 +15,7 @@ export default function Comment({
 
   useEffect(() => {
     setIsLoading(true)
-    api.users.getById(userId).then(data => {
+    api.users.getById(userId).then((data) => {
       setUser(data)
       setIsLoading(false)
     })

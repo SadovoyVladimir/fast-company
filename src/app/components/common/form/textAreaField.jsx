@@ -1,13 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-export default function TextAreaField({
-  label,
-  value,
-  name,
-  onChange,
-  error
-}) {
+export default function TextAreaField({ label, value, name, onChange, error }) {
   const handleChange = ({ target }) => {
     onChange({ name: target.name, value: target.value })
   }
