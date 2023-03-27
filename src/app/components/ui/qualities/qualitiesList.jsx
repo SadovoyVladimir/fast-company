@@ -10,9 +10,7 @@ export default function QualitiesList({ qualitiesId }) {
   return (
     <>
       {!isLoading
-        ? qualities.map((quality) => (
-            <Quality key={quality._id} {...quality} />
-          ))
+        ? qualities.map((quality) => <Quality key={quality._id} {...quality} />)
         : 'Loading...'}
     </>
   )
