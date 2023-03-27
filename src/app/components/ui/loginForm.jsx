@@ -4,7 +4,11 @@ import { validator } from '../../utils/validator'
 import CheckBoxField from '../common/form/checkBoxField'
 
 export default function LoginForm() {
-  const [data, setData] = useState({ email: '', password: '', stayOn: false })
+  const [data, setData] = useState({
+    email: '',
+    password: '',
+    stayOn: false
+  })
   const [errors, setErrors] = useState({})
 
   const handleChange = (target) => {

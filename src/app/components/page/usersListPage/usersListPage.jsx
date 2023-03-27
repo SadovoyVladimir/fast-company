@@ -17,7 +17,6 @@ export default function UsersListPage() {
   const [searchQuery, setSearchQuery] = useState('')
 
   const { users } = useUsers()
-  console.log(users)
 
   const handleDelete = (userId) => {
     // setUsers(users.filter((user) => user._id !== userId))

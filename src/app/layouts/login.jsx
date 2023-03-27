@@ -6,7 +6,7 @@ import RegisterForm from '../components/ui/registerForm'
 export default function Login() {
   const { type } = useParams()
   const [formType, setFormType] = useState(type === 'register' ? type : 'login')
-  const ToggleFormType = () => {
+  const toggleFormType = () => {
     setFormType((prevState) =>
       prevState === 'register' ? 'login' : 'register'
     )
@@ -21,7 +21,7 @@ export default function Login() {
               <RegisterForm />
               <p>
                 Already have account?{' '}
-                <a role='button' onClick={ToggleFormType}>
+                <a role='button' onClick={toggleFormType}>
                   Sign in
                 </a>
               </p>
@@ -32,7 +32,7 @@ export default function Login() {
               <LoginForm />
               <p>
                 Dont have account?{' '}
-                <a role='button' onClick={ToggleFormType}>
+                <a role='button' onClick={toggleFormType}>
                   Sign up
                 </a>
               </p>

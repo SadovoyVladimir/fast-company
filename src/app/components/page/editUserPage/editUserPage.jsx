@@ -26,7 +26,7 @@ export default function EditUserPage() {
   const getProfessionById = (id) => {
     for (const prof of professions) {
       if (prof.value === id) {
-        return { _id: prof.value, name: prof.name }
+        return { _id: prof.value, name: prof.label }
       }
     }
   }
@@ -88,7 +88,7 @@ export default function EditUserPage() {
     )
     api.professions.fetchAll().then((data) => {
       const professionsList = Object.keys(data).map((professionName) => ({
-        name: data[professionName].name,
+        label: data[professionName].name,
         value: data[professionName]._id
       }))
       setProfessions(professionsList)
@@ -111,14 +111,14 @@ export default function EditUserPage() {
     e.preventDefault()
     const isValid = validate()
     if (!isValid) return
-    const { profession, qualities, _id } = data
+    const { profession, qualities } = data
     api.users
       .update(userId, {
         ...data,
         profession: getProfessionById(profession),
         qualities: getQualities(qualities)
       })
-      .then((data) => history.replace(`/users/${_id}`))
+      .then((data) => history.replace(`/users/${data._id}`))
   }
 
   return (

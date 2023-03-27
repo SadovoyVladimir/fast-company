@@ -56,7 +56,7 @@ export default function AddCommentForm({ onSubmit }) {
   const arrayOfUsers =
     users &&
     Object.keys(users).map((userId) => ({
-      name: users[userId].name,
+      label: users[userId].name,
       value: users[userId]._id
     }))
 

@@ -10,7 +10,7 @@ export const useProfessions = () => {
 }
 
 export const ProfessionProvider = ({ children }) => {
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setLoading] = useState(true)
   const [professions, setProfessions] = useState([])
   const [error, setError] = useState([])
 
@@ -19,7 +19,7 @@ export const ProfessionProvider = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    if (error) {
+    if (error !== null) {
       toast(error)
       setError(null)
     }
@@ -33,7 +33,7 @@ export const ProfessionProvider = ({ children }) => {
     try {
       const { content } = await professionService.get()
       setProfessions(content)
-      setIsLoading(false)
+      setLoading(false)
     } catch (error) {
       errorCatcher(error)
     }

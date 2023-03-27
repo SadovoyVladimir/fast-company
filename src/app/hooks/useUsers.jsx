@@ -11,7 +11,7 @@ export const useUsers = () => {
 
 const UserProvider = ({ children }) => {
   const [users, setUsers] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const UserProvider = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    if (error) {
+    if (error !== null) {
       toast(error)
       setError(null)
     }
@@ -29,7 +29,7 @@ const UserProvider = ({ children }) => {
     try {
       const { content } = await userService.get()
       setUsers(content)
-      setIsLoading(false)
+      setLoading(false)
     } catch (error) {
       errorCatcher(error)
     }

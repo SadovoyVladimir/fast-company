@@ -57,7 +57,6 @@ export default function UserTable({
       columns={columns}
       selectedSort={selectedSort}
       data={users}
-      url='users'
     />
   )
 }

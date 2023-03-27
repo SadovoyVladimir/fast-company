@@ -18,7 +18,7 @@ export default function useMockData() {
   const summaryCount = professions.length + qualities.length + users.length
 
   const incrementCount = () => {
-    setCount(prevState => ++prevState)
+    setCount((prevState) => ++prevState)
   }
 
   const updateProgress = () => {
