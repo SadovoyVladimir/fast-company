@@ -5,7 +5,12 @@ import userService from '../services/user.service'
 import { toast } from 'react-toastify'
 import { setTokens } from '../services/localStorage.service'
 
-const httpAuth = axios.create()
+const httpAuth = axios.create({
+  baseURL: 'https://identitytoolkit.googleapis.com/v1/',
+  params: {
+    key: process.env.REACT_APP_FIREBASE_KEY
+  }
+})
 const AuthContext = React.createContext()
 
 export const useAuth = () => {
@@ -17,9 +22,8 @@ const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null)
 
   async function signUp({ email, password, ...rest }) {
-    const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIREBASE_KEY}`
     try {
-      const { data } = await httpAuth.post(url, { email, password, returnSecureKey: true })
+      const { data } = await httpAuth.post(`accounts:signUp`, { email, password, returnSecureKey: true })
       setTokens(data)
       await createUser({ id: data.localId, email, ...rest })
     } catch (error) {
@@ -36,24 +40,25 @@ const AuthProvider = ({ children }) => {
   }
 
   async function signIn({ email, password }) {
-    const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_FIREBASE_KEY}`
     try {
-      const { data } = await httpAuth.post(url, { email, password, returnSecureKey: true })
+      const { data } = await httpAuth.post(`accounts:signInWithPassword`, { email, password, returnSecureKey: true })
       setTokens(data)
     } catch (error) {
       const { code, message } = error.response.data.error
       errorCatcher(error)
 
       if (code === 400) {
-        if (message === 'INVALID_PASSWORD') {
-          const errorObj = { password: 'Неверный пароль' }
-          throw errorObj
-        } else if (message === 'EMAIL_NOT_FOUND') {
-          const errorObj = { email: 'Неверный email' }
-          throw errorObj
-        } else if (message === 'USER_DISABLED') {
-          const errorObj = { email: 'Учетная запись пользователя отключена администратором' }
-          throw errorObj
+        switch (message) {
+          case 'INVALID_PASSWORD':
+            throw new Error('Email или пароль введены некорректно')
+          case 'EMAIL_NOT_FOUND':
+            throw new Error('Email или пароль введены некорректно')
+          case 'USER_DISABLED': {
+            const errorObj = { email: 'Учетная запись пользователя отключена администратором' }
+            throw errorObj
+          }
+          default:
+            throw new Error('Слишком много попыток входа. Попробуйте позднее')
         }
       }
     }

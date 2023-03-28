@@ -14,28 +14,19 @@ export default function LoginForm() {
   })
   const { signIn } = useAuth()
   const [errors, setErrors] = useState({})
+  const [enterError, setEnterError] = useState(null)
 
   const handleChange = (target) => {
     setData((prevState) => ({ ...prevState, [target.name]: target.value }))
+    setEnterError(null)
   }
 
   const validatorConfig = {
     email: {
-      isRequired: { message: 'Электронная почта обязательна для заполнения' },
-      isEmail: { message: 'Email введен некорректно' }
+      isRequired: { message: 'Электронная почта обязательна для заполнения' }
     },
     password: {
-      isRequired: { message: 'Пароль обязателен для заполнения' },
-      isCapitalSymbol: {
-        message: 'Пароль должен содержать хотя бы одну заглавную букву'
-      },
-      isContainDigit: {
-        message: 'Пароль должен содержать хотя бы одну цифру'
-      },
-      min: {
-        message: 'Пароль должен состоять минимум из 8 символов',
-        value: 8
-      }
+      isRequired: { message: 'Пароль обязателен для заполнения' }
     }
   }
 
@@ -60,7 +51,7 @@ export default function LoginForm() {
       await signIn(data)
       history.push('/')
     } catch (error) {
-      setErrors(error)
+      error.message ? setEnterError(error.message) : setErrors(error)
     }
   }
 
@@ -84,7 +75,8 @@ export default function LoginForm() {
       <CheckBoxField value={data.stayOn} onChange={handleChange} name='stayOn'>
         Оставаться в системе
       </CheckBoxField>
-      <button disabled={!isValid} className='btn btn-primary w-100 mx-auto'>
+      {enterError && <p className='text-danger'>{enterError}</p>}
+      <button disabled={!isValid || enterError} className='btn btn-primary w-100 mx-auto'>
         Submit
       </button>
     </form>
