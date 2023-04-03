@@ -49,7 +49,7 @@ export default function LoginForm() {
 
     try {
       await signIn(data)
-      history.push('/')
+      history.push(history.location.state?.from.pathname || '/')
     } catch (error) {
       error.message ? setEnterError(error.message) : setErrors(error)
     }
@@ -76,7 +76,10 @@ export default function LoginForm() {
         Оставаться в системе
       </CheckBoxField>
       {enterError && <p className='text-danger'>{enterError}</p>}
-      <button disabled={!isValid || enterError} className='btn btn-primary w-100 mx-auto'>
+      <button
+        disabled={!isValid || enterError}
+        className='btn btn-primary w-100 mx-auto'
+      >
         Submit
       </button>
     </form>

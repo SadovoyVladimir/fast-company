@@ -10,7 +10,7 @@ export default function QualitiesCard({ data }) {
           <span>Qualities</span>
         </h5>
         <p className='card-text'>
-          <Qualities qualities={data} />
+          <Qualities qualitiesId={data} />
         </p>
       </div>
     </div>
