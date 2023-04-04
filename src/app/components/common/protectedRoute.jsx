@@ -25,6 +25,11 @@ export default function ProtectedRoute({
             />
           )
         }
+        if ({ ...props }.match.params.edit && { ...props }.match.params.userId !== currentUser._id) {
+          return (
+            <Redirect to={`/users/${currentUser._id}/edit`} />
+          )
+        }
         return Component ? <Component {...props} /> : children
       }}
     />

@@ -67,36 +67,28 @@ export default function EditUserPage() {
 
   useEffect(() => {
     setIsLoading(true)
-    setData((prevState) => ({
-      ...prevState,
-      ...user,
-      qualities: transformData(userQualities),
-      profession: userProfession._id
-    }))
-    setProfOptions(
-      professions.map((prof) => ({
-        label: prof.name,
-        value: prof._id
+    if (!profLoading && !qualLoading) {
+      setData((prevState) => ({
+        ...prevState,
+        ...user,
+        qualities: transformData(userQualities),
+        profession: userProfession._id
       }))
-    )
-    setQualOptions(
-      qualities.map((qual) => ({
-        label: qual.name,
-        value: qual._id,
-        color: qual.color
-      }))
-    )
-  }, [])
-
-  // useEffect(() => {
-  //   console.log('from here', professions, qualities)
-  //   setData((prevState) => ({
-  //     ...prevState,
-  //     ...user,
-  //     qualities: transformData(userQualities),
-  //     profession: userProfession._id
-  //   }))
-  // }, [professions, qualities])
+      setProfOptions(
+        professions.map((prof) => ({
+          label: prof.name,
+          value: prof._id
+        }))
+      )
+      setQualOptions(
+        qualities.map((qual) => ({
+          label: qual.name,
+          value: qual._id,
+          color: qual.color
+        }))
+      )
+    }
+  }, [profLoading, qualLoading])
 
   useEffect(() => {
     if (data._id) setIsLoading(false)
@@ -118,10 +110,6 @@ export default function EditUserPage() {
       console.log('error: ', error)
     }
   }
-
-  console.log('loading', isLoading)
-  console.log('qualloading', qualLoading)
-  console.log('profloading', profLoading)
 
   return (
     <div className='container mt-5'>
