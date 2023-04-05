@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { validator } from '../../../utils/validator'
 import TextField from '../../common/form/textField'
 import SelectField from '../../common/form/selectField'
@@ -8,30 +8,24 @@ import MultiSelectField from '../../common/form/multiSelectField'
 import BackHistoryButton from '../../common/backButton'
 import { useQualities } from '../../../hooks/useQualities'
 import { useProfessions } from '../../../hooks/useProfession'
-import { useUsers } from '../../../hooks/useUsers'
 import { useAuth } from '../../../hooks/useAuth'
 
 export default function EditUserPage() {
-  const { userId } = useParams()
   const history = useHistory()
-  const [isLoading, setIsLoading] = useState(false)
-  const [data, setData] = useState({
-    name: '',
-    email: '',
-    profession: '',
-    sex: 'male',
-    qualities: []
-  })
+  const [isLoading, setIsLoading] = useState(true)
+  const [data, setData] = useState()
+  const { currentUser, updateUser } = useAuth()
   const { isLoading: qualLoading, qualities, getQuality } = useQualities()
-  const { isLoading: profLoading, professions, getProfession } = useProfessions()
-  const { getUserById } = useUsers()
-  const { updateUser } = useAuth()
+  const {
+    isLoading: profLoading,
+    professions,
+    getProfession
+  } = useProfessions()
   const [profOptions, setProfOptions] = useState([])
   const [qualOptions, setQualOptions] = useState([])
-  const user = getUserById(userId)
 
-  const userProfession = getProfession(user.profession)
-  const userQualities = user.qualities.map((q) => getQuality(q))
+  const userProfession = getProfession(currentUser.profession)
+  const userQualities = currentUser.qualities.map((q) => getQuality(q))
   const [errors, setErrors] = useState({})
 
   const transformData = (data) => {
@@ -67,10 +61,10 @@ export default function EditUserPage() {
 
   useEffect(() => {
     setIsLoading(true)
-    if (!profLoading && !qualLoading) {
+    if (!profLoading && !qualLoading && currentUser && !data) {
       setData((prevState) => ({
         ...prevState,
-        ...user,
+        ...currentUser,
         qualities: transformData(userQualities),
         profession: userProfession._id
       }))
@@ -88,10 +82,10 @@ export default function EditUserPage() {
         }))
       )
     }
-  }, [profLoading, qualLoading])
+  }, [profLoading, qualLoading, currentUser, data])
 
   useEffect(() => {
-    if (data._id) setIsLoading(false)
+    if (data?._id) setIsLoading(false)
     validate()
   }, [data])
 
@@ -100,14 +94,13 @@ export default function EditUserPage() {
     const isValid = validate()
     if (!isValid) return
     try {
-      await updateUser(userId, {
+      await updateUser({
         ...data,
-        qualities: data.qualities.map(q => q.value)
+        qualities: data.qualities.map((q) => q.value)
       })
       history.replace(`/users/${data._id}`)
     } catch (error) {
       setErrors(error)
-      console.log('error: ', error)
     }
   }
 
@@ -116,7 +109,7 @@ export default function EditUserPage() {
       <BackHistoryButton />
       <div className='row'>
         <div className='col-md-6 offset-md-3 shadow p-4'>
-          {!isLoading && !qualLoading && !profLoading && Object.keys(professions).length > 0 ? (
+          {!isLoading && Object.keys(professions).length > 0 ? (
             <form onSubmit={handleSubmit}>
               <TextField
                 label='Имя'
