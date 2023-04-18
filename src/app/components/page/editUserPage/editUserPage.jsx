@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
 import { validator } from '../../../utils/validator'
 import TextField from '../../common/form/textField'
 import SelectField from '../../common/form/selectField'
 import RadioField from '../../common/form/radioField'
 import MultiSelectField from '../../common/form/multiSelectField'
 import BackHistoryButton from '../../common/backButton'
-import { useAuth } from '../../../hooks/useAuth'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   getQualities,
   getQualitiesLoadingStatus
@@ -16,12 +14,13 @@ import {
   getProfessions,
   getProfessionsLoadingStatus
 } from '../../../store/professions'
+import { getCurrentUserData, updateUser } from '../../../store/users'
 
 export default function EditUserPage() {
-  const history = useHistory()
   const [isLoading, setIsLoading] = useState(true)
   const [data, setData] = useState()
-  const { currentUser, updateUser } = useAuth()
+  const dispatch = useDispatch()
+  const currentUser = useSelector(getCurrentUserData())
   const qualities = useSelector(getQualities())
   const qualLoading = useSelector(getQualitiesLoadingStatus())
   const professions = useSelector(getProfessions())
@@ -102,15 +101,12 @@ export default function EditUserPage() {
     e.preventDefault()
     const isValid = validate()
     if (!isValid) return
-    try {
-      await updateUser({
-        ...data,
-        qualities: data.qualities.map((q) => q.value)
-      })
-      history.replace(`/users/${data._id}`)
-    } catch (error) {
-      setErrors(error)
+    const redirect = `/users/${data._id}`
+    const payload = {
+      ...data,
+      qualities: data.qualities.map((q) => q.value)
     }
+    dispatch(updateUser({ payload, redirect }))
   }
 
   return (

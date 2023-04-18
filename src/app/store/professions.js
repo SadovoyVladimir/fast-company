@@ -57,12 +57,12 @@ export const getProfessionsLoadingStatus = () => (state) =>
 export const getProfessionById = (professionId) => (state) => {
   if (state.professions.entities) {
     let profession
-      for (const prof of state.professions.entities) {
-        if (prof._id === professionId) {
-          profession = prof
-          break
-        }
+    for (const prof of state.professions.entities) {
+      if (prof._id === professionId) {
+        profession = prof
+        break
       }
+    }
     return profession
   }
   return []
